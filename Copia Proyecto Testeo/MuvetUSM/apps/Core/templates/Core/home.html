@@ -1,12 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hola Mundo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "Core/css/estilos.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    
 </head>
 <body>
-    <h1>Hola Mundo</h1>
-    <h1> {{ user.username }} </h1>
-    <p>Inicio</p>
-    <a href="{% url 'login' %}">Iniciar sesión</a>
+
+    <div class="root">
+        <header>
+            <div class="navbar">
+                <div class="logo"><a href="#">PRINCIPAL PAG.</a></div>
+                <ul class="links">
+                    <li><a href="facultades" >facultades</a></li>
+                    <li><a href="docencia" >docencia</a></li>
+                    <li><a href="bibliotecas" >bibliotecas</a></li>
+                    <li><a href="contacto">contacto</a></li>
+                </ul>
+                <a href="#" class="action-btn">Iniciar Sesion</a>
+                <div class="toggle_btn">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+
+            <div class="dropdown_menu">
+                <li><a href="facultades" >facultades</a></li>
+                <li><a href="docencia" >docencia</a></li>
+                <li><a href="bibliotecas" >bibliotecas</a></li>
+                <li><a href="contacto">contacto</a></li>
+                <li><a href="#" class="action-btn">Iniciar Sesion</a></li>
+            </div>
+        </header>
+
+
+
+
+        <div class="gadient-background">
+            <div id="columna" class="col-6">
+                <div class="main-container limit-width">
+                    <div id="container-row" class="container">
+                        <div class="info">
+                            <img class="marca" src="img/7274165.jpg" alt="">
+    
+                            <div class="text-wrapper">
+                                <div class="text-parent">
+                                    <div class="text-h">
+                                        <h1>Bienvenido</h1>
+                                    </div>
+                                    <div class="text-p">
+                                        <h2>fiestas a la chilena</h2>
+                                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis totam iure cumque incidunt alias beatae autem optio, ut dolor. Odit doloribus accusamus fugit nostrum voluptas!</p>
+                                    </div>
+                                        
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+    
+                </div>
+
+            </div>
+            
+            <div id="otra_columna" class="col-6">
+                <section id="hero">
+                    <h1>El Home</h1>
+                    <p>Lorem ipsum dolor sit, amet consectetur <br> adipisicing elit. Eum, ut.</p>
+                </section>
+            </div>
+
+        </div>
+    </div> 
+
+
+
+
+    <div class="backgroundwrap">
+        <div class="Footer container limit-width">
+            <div class="contactText">
+                <p>
+                    @ Colegio tanto tanto
+                    <br>
+                    <br>
+                    +56 9 8765 4321 - <a class="external" href="mail: colegio@mail.cl" target="_blank"> colegio@mail.cl</a>
+                    <br>
+                    <br>
+                    Sitio web administrado por la 
+                    <a class="external" href="alguna direccion" target="_blank"> Direccion de educacion a distancia</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <main>
+
+    </main>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle_btn')
+        const toggleBtnIcon = document.querySelector('.toggle_btn i')
+        const dropDownMenu = document.querySelector('.dropdown_menu')
+
+        toggleBtn.onclick = function () {
+            dropDownMenu.classList.toggle('open')
+            const isOpen = dropDownMenu.classList.contains('open')
+
+            toggleBtnIcon.classList = isOpen
+            ? 'fa-solid fa-bars'
+            : 'fa-solid fa-bars'
+            
+        }
+    </script>
+  
 </body>
 </html>
