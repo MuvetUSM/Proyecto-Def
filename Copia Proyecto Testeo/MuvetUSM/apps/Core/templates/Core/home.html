@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static "Core/css/estilos.css" %}">
+    <link rel="stylesheet" href="{% static 'Core/css/estilos.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    
 </head>
 <body>
 
@@ -22,7 +20,8 @@
                     <li><a href="bibliotecas" >bibliotecas</a></li>
                     <li><a href="contacto">contacto</a></li>
                 </ul>
-                <a href="#" class="action-btn">Iniciar Sesion</a>
+                <a href="{% url 'login' %}" class="action-btn">Iniciar Sesion</a>
+                <a href="{% url 'registrar' %}" class="action-btn">Registrarse</a>
                 <div class="toggle_btn">
                     <i class="fa-solid fa-bars"></i>
                 </div>
@@ -33,7 +32,8 @@
                 <li><a href="docencia" >docencia</a></li>
                 <li><a href="bibliotecas" >bibliotecas</a></li>
                 <li><a href="contacto">contacto</a></li>
-                <li><a href="#" class="action-btn">Iniciar Sesion</a></li>
+                
+                <li><a href="{% url 'login' %}">Iniciar Sesion</a></li>
             </div>
         </header>
 
