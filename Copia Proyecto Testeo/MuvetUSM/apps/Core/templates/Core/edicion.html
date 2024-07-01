@@ -1,0 +1,18 @@
+{% extends "Core/base.html" %}
+
+{% block content %}
+
+<div class="container-base">
+
+    <h1 class="titulo">Editar proyecto</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-primary btn-lg">Save</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
