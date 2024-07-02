@@ -23,6 +23,10 @@ urlpatterns = [
     path('curso/generar',views.generacion_curso,name="generar_c"),
     path('paralelo/<int:paralelo>/d',views.eliminacion_paralelo),
     path('paralelo/generar',views.generacion_paralelo,name="generar_p"),
-    path('inicio',views.inicio,name='inicio') #home de la sesion
+    path('inicio',views.inicio,name='inicio'), #home de la sesion
+    
+    path('cursos/', views.cursos, name="cursos"),
+    path('edicion/<name>', views.edicion, name="edicion"),
+    path('projects/eliminar/<name>/', views.eliminar, name='eliminar'),
 ]
 

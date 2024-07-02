@@ -14,6 +14,12 @@
         <header>
             <div class="navbar">
                 <div class="logo"><a href="#">PRINCIPAL PAG.</a></div>
+                <ul class="links">
+                    <li><a href="facultades" >facultades</a></li>
+                    <li><a href="docencia" >docencia</a></li>
+                    <li><a href="bibliotecas" >bibliotecas</a></li>
+                    <li><a href="{% url 'cursos' %}">cursos</a></li>
+                </ul>
                 {% block botones %} {% endblock %}
             </div>
         </header>

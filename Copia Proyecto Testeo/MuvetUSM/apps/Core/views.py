@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .models import *
-from .forms import RegistroUsuario, IniciarUsuario
+from .forms import RegistroUsuario, IniciarUsuario, EditCursoForm
 
 
 # Create your views here.
@@ -50,6 +50,7 @@ class resetForm(PasswordResetForm):
 #cursos    
 def creacion_curso(request):
     return render(request, 'cursos/creacion_curso.html')
+
 def generacion_curso(request):
     data_creacion = request.POST
     numeracion = data_creacion['numeracion']
@@ -107,3 +108,26 @@ def cursos_home(request):
 @login_required
 def inicio(request):
     return render(request,"Core/inicio.html")
+
+def cursos(request):
+    cursos = Curso.objects.all()
+    return render(request, 'Core/cursos.html', {'cursos': cursos})
+
+def edicion(request, name):
+    curso = get_object_or_404(Curso, name=name)
+    
+    if request.method == 'POST':
+        form = EditCursoForm(request.POST, instance=curso)
+        if form.is_valid():
+            form.save()
+            return redirect('cursos') 
+    else:
+        form = EditCursoForm(instance=curso)
+    
+    return render(request, 'Core/edicion.html', {'form': form})
+
+
+def eliminar(request, name):
+    curso = get_object_or_404(Curso, name=name)
+    curso.delete()
+    return redirect('cursos') 
