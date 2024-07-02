@@ -64,3 +64,11 @@ class Usuario(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.super
+
+class Curso(models.Model):
+    name = models.CharField(max_length=200)
+    grado = models.CharField(max_length=50, default=None)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, default=None)
+
+    def __str__(self):
+        return self.name
