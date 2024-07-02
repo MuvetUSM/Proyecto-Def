@@ -106,4 +106,4 @@ def cursos_home(request):
 
 @login_required
 def inicio(request):
-    return render(request,"inicio.html")
+    return render(request,"Core/inicio.html")
