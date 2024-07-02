@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from .models import Usuario
+from .models import *
 from .forms import RegistroUsuario, IniciarUsuario
 
 
@@ -46,3 +46,64 @@ class resetForm(PasswordResetForm):
         # Add any custom logic here, e.g., clearing session data
         return super().get(request)
 """
+
+#cursos    
+def creacion_curso(request):
+    return render(request, 'cursos/creacion_curso.html')
+def generacion_curso(request):
+    data_creacion = request.POST
+    numeracion = data_creacion['numeracion']
+    tipo = data_creacion['nombre']
+    if not cursos.objects.filter(Nombre_curso=tipo,Numeracion_curso=numeracion).exists():
+        curso_nuevo = cursos(Nombre_curso=tipo,Numeracion_curso=numeracion)
+        curso_nuevo.save()
+        return redirect('gestor')
+    return redirect('gestor')
+
+def eliminacion_curso(request,curso):
+    delete_c = cursos.objects.get(Codigo_curso = curso)
+    delete_c.delete()
+    return redirect('gestor')
+
+def modificar_curso(request,curso):
+    data_modificacion = request.post
+    return redirect('gestor')
+
+#paralelos
+def creacion_paralelo(request):
+    return render(request, 'cursos/creacion_paralelo.html')
+
+def generacion_paralelo(request):
+    data_creacion = request.POST
+    curso = data_creacion['curso']
+    n_paralelo= data_creacion['numero_p']
+    if not Paralelo.objects.filter(Numero_paralelo=n_paralelo,curso_paralelo_id=curso).exists():
+        Paralelo_nuevo = Paralelo(Numero_paralelo=n_paralelo,curso_paralelo_id = curso)
+        
+        Paralelo_nuevo.save()
+        return redirect('gestor')
+    return redirect('gestor')
+
+def eliminacion_paralelo(request,paralelo):
+    delete_p = Paralelo.objects.get(codigo_paralelo = paralelo)
+    delete_p.delete()
+    return redirect('gestor')
+
+@login_required
+def cursos_home(request):
+    
+    data = {}
+    if request.user.tipo == "Str":
+        lista_curso = cursos.objects.all()
+        data = {"cursos" : lista_curso}
+        return render(request,"cursos/cursos.html",data)
+    if request.user.tipo == "Tea":
+        lista_paralelos = Paralelo.objects.all()
+        lista_curso = cursos.objects.all()
+        data = {"paralelos" : lista_paralelos,"cursos_lista": lista_curso}
+        return render(request,"cursos/cursos.html",data)
+    return redirect('inicio')
+
+@login_required
+def inicio(request):
+    return render(request,"inicio.html")

@@ -16,5 +16,13 @@ urlpatterns = [
     path('doneChange/', auth_views.PasswordResetDoneView.as_view(template_name="Auth/donechange.html"), name = 'donechange'),
     path('changePass/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name="Auth/changepass.html"), name = 'changepass'),
     path('change/', auth_views.PasswordResetCompleteView.as_view(template_name="Auth/change.html"), name = 'change'),
+    
+    path('cursos_paralelos',views.cursos_home,name='gestor'), 
+    path('curso/<int:curso>/d',views.eliminacion_curso),
+    path('curso/<int:curso>/m',views.modificar_curso),
+    path('curso/generar',views.generacion_curso,name="generar_c"),
+    path('paralelo/<int:paralelo>/d',views.eliminacion_paralelo),
+    path('paralelo/generar',views.generacion_paralelo,name="generar_p"),
+    path('inicio',views.inicio,name='inicio') #home de la sesion
 ]
 

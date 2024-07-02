@@ -72,3 +72,29 @@ class Curso(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+#mont
+tipo_nivel_educativo = [("BA","Basico"),("ME","Medio")]
+
+#modelo correspondiente al curso
+class cursos(models.Model):
+    Numeracion_curso = models.IntegerField(null=True)
+    Nombre_curso = models.CharField(choices=tipo_nivel_educativo,null=False,max_length=40)
+    Codigo_curso = models.AutoField(primary_key=True)
+    
+    
+    def __str__(self) -> str:
+        nombre_curso = ""
+        for x in tipo_nivel_educativo:
+            if self.Nombre_curso in x:
+                nombre_curso = x[1]
+        return f"{self.Numeracion_curso} {nombre_curso}"
+
+class Paralelo(models.Model):
+    codigo_paralelo = models.AutoField(primary_key=True)
+    Numero_paralelo = models.IntegerField(null=False)
+    curso_paralelo = models.ForeignKey(cursos,on_delete=models.CASCADE)
+    def __str__(self):
+        return f'Paralelo {self.Numero_paralelo} | Curso {self.curso_paralelo}'   

@@ -1,0 +1,146 @@
+{% extends "home_muveet.html" %}
+{% block pagina %}
+<div class="row">
+    {% if user.tipo == "Str" and not user.tipo == "Tea"%}
+    <div class="col">
+        <div class="card mx-2">
+            <div class="card-body">
+                <h5 class="card-title">Administrativo {{user.nombre}}</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Curso</th>
+                            <th scope="col"></th>
+                            <th scope="col"> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#creacionC">
+                                    Crear curso
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for curso in cursos %}
+                        <tr>
+                            <td>{{curso.Numeracion_curso}} {{curso.Nombre_curso}}</td>
+                            <td><a class="btn btn-danger" id="eliminar" href="curso/{{curso.Codigo_curso}}/d"
+                                    role="button">Eliminar</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning text-light" id="modificarC" href="curso/{{curso.Codigo_curso}}/m"
+                                    role="button">modificar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+                <!-- Modal -->
+                <div class="modal fade" id="creacionC" tabindex="-1" aria-labelledby="creacionCursos"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="creacionCursos">Creador cursos Muveet</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% include "cursos/formulariocurso.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if user.tipo == "Tea"  or  user.tipo == "Str"%}
+    <div class="col">
+        <div class="card mx-2">
+            <div class="card-body">
+                <h5 class="card-title">Profesor {{user.nombre}}</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Paralelo</th>
+                            <th scope="col">Curso</th>
+                            <th scope="col"></th>
+                            <th scope="col"> <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#creacionP">
+                                    Crear Paralelo
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for paralelo in paralelos %}
+                        <tr>
+                            <td>{{paralelo.Numero_paralelo}}</td>
+                            <td>{{paralelo.curso_paralelo}}</td>
+                            <td>
+                                <a class="btn btn-danger" id="eliminar" href="paralelo/{{paralelo.codigo_paralelo}}/d"
+                                    role="button">Eliminar</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning text-light" id="modificarP" href="paralelo/{{paralelo.codigo_paralelo}}/m"
+                                    role="button">modificar</a>
+
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+                <!-- Modal -->
+                <div class="modal fade" id="creacionP" tabindex="-1" aria-labelledby="creacionParalelos"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="creacionParalelos">Creador de Paralelos Muveet</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% include "cursos/formularioparalelo.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<script>
+    document.querySelector("#eliminar").addEventListener("click",
+        () => {
+            let mensaje = "¿Estas seguro de tu acción?"
+            let opcion = window.confirm(mensaje);
+            if (!opcion) {
+                window.event.preventDefault();
+            }
+        }
+    )
+    function modalcreacion_P(id) {
+        let url = `paralelo/${id}/m`
+        let model_paralelo = document.querySelector("#modificacionP")
+
+    }
+    function modalcreacion_c(id) {
+        let url = `curso/${id}/m`
+        let model_curso = document.querySelector("#modificacionC")
+    }
+</script>
+{% endblock pagina %}

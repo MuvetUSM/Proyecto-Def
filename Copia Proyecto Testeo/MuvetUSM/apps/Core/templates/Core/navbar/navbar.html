@@ -1,0 +1,16 @@
+<nav class="navbar1">
+    <div class="navbar-container1">
+        <a href="#" class="brand">Muvet</a>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+        <ul class="nav-links1">
+            <li><a href="{% url 'inicio' %}">Inicio</a></li>
+            <li><a href="#">Acerca de</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="{% url 'gestor' %}">Cursos y paralelos</a></li>
+            <li><a href="admin/">ADMIN</a></li>
+            <li><a href="{% url 'salir' %}" class="logout">Cerrar Sesión</a></li>
+
+        </ul>
+    </div>
+</nav>
