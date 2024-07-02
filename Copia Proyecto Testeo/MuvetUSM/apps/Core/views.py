@@ -96,12 +96,12 @@ def cursos_home(request):
     if request.user.tipo == "Str":
         lista_curso = cursos.objects.all()
         data = {"cursos" : lista_curso}
-        return render(request,"cursos/cursos.html",data)
+        return render(request,"Core/cursos/cursos.html",data)
     if request.user.tipo == "Tea":
         lista_paralelos = Paralelo.objects.all()
         lista_curso = cursos.objects.all()
         data = {"paralelos" : lista_paralelos,"cursos_lista": lista_curso}
-        return render(request,"cursos/cursos.html",data)
+        return render(request,"Core/cursos/cursos.html",data)
     return redirect('inicio')
 
 @login_required

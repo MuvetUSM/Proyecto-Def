@@ -1,4 +1,4 @@
-{% extends "home_muveet.html" %}
+{% extends "Core/home_muveet.html" %}
 {% block pagina %}
 <div class="row">
     {% if user.tipo == "Str" and not user.tipo == "Tea"%}
@@ -47,7 +47,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                {% include "cursos/formulariocurso.html" %}
+                                {% include "Core/cursos/formulariocurso.html" %}
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                {% include "cursos/formularioparalelo.html" %}
+                                {% include "Core/cursos/formularioparalelo.html" %}
                             </div>
                         </div>
                     </div>
