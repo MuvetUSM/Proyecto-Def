@@ -1,7 +1,32 @@
-<h2>Iniciar sesión</h2>
+{% extends "Core/base.html" %}
 
+{% block title %} | Login {% endblock %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="../../static/muvetusm/css/loginStyle.css">
+</head>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Iniciar sesión</button>
+
+        <div class="container" id="container">
+            <div class="form-container sign-in">
+                <form>
+                    <h1>Iniciar sesión</h1>
+                    <input type="email" placeholder="Email" name="username">
+                    <input type="password" placeholder="Contraseña" name="password">
+                    <a href="{% url 'sendchange' %}?email={{ user.correo }}">He olvidado mi contraseña</a>
+                    <button type="submit">Iniciar sesión</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-right">
+                        <h1>¡Bienvenido a Muvet!</h1>
+                        <p>Inicie sesión para acceder a sus cursos y recursos. ¡Gracias por ser parte de nuestra comunidad educativa!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 </form>
+{% endblock %}

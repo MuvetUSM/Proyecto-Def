@@ -1,0 +1,11 @@
+{% extends "Core/base.html" %}
+
+{% block title %} | Login {% endblock %}
+  
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" name="Send Email">
+</form>
+{% endblock %}

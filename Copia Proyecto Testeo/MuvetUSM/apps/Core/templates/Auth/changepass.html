@@ -1,0 +1,15 @@
+{% extends "Core/base.html" %}
+
+{% block title %} | Login {% endblock %}
+  
+{% block content %}
+<form method="post">
+    <label for="password">Nueva contraseña:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <label for="confirmPassword">Confirmar contraseña:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required>
+    <br>
+    <button type="submit">Restablecer contraseña</button>
+</form>
+{% endblock %}
