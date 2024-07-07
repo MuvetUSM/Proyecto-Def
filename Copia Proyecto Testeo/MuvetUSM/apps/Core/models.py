@@ -65,7 +65,7 @@ class Usuario(AbstractBaseUser):
     def is_staff(self):
         return self.super
 
-class Curso(models.Model):
+class Asignatura(models.Model):
     name = models.CharField(max_length=200)
     grado = models.CharField(max_length=50, default=None)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, default=None)

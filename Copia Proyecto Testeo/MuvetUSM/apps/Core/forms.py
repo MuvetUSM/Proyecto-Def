@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario, Curso
+from .models import Usuario, Asignatura
 
 class RegistroUsuario(forms.ModelForm):
     Password1 = forms.CharField(label = "Contraseña.", widget= forms.PasswordInput(
@@ -39,7 +39,7 @@ class IniciarUsuario(forms.ModelForm):
 
 class CreateNewCurso(forms.ModelForm):
     class Meta:
-        model = Curso
+        model = Asignatura
         fields = ['name', 'grado', 'usuario']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'input'}),
@@ -49,7 +49,7 @@ class CreateNewCurso(forms.ModelForm):
 
 class EditCursoForm(forms.ModelForm):
     class Meta:
-        model = Curso
+        model = Asignatura
         fields = ['name', 'grado', 'usuario']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'input'}),

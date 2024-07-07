@@ -109,12 +109,12 @@ def cursos_home(request):
 def inicio(request):
     return render(request,"Core/inicio.html")
 
-def cursos(request):
-    cursos = Curso.objects.all()
+def Asignatura_vista(request):
+    cursos = Asignatura.objects.all()
     return render(request, 'Core/cursos.html', {'cursos': cursos})
 
-def edicion(request, name):
-    curso = get_object_or_404(Curso, name=name)
+def edicion_asignatura(request, name):
+    curso = get_object_or_404(Asignatura, name=name)
     
     if request.method == 'POST':
         form = EditCursoForm(request.POST, instance=curso)
@@ -127,7 +127,7 @@ def edicion(request, name):
     return render(request, 'Core/edicion.html', {'form': form})
 
 
-def eliminar(request, name):
-    curso = get_object_or_404(Curso, name=name)
+def eliminar_asignatura(request, name):
+    curso = get_object_or_404(Asignatura, name=name)
     curso.delete()
     return redirect('cursos') 

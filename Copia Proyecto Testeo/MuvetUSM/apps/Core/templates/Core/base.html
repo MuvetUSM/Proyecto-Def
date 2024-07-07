@@ -13,12 +13,12 @@
     <div class="root">
         <header>
             <div class="navbar">
-                <div class="logo"><a href="#">PRINCIPAL PAG.</a></div>
+                <div class="logo"><a href="{% url 'home' %}">PRINCIPAL PAG.</a></div>
                 <ul class="links">
                     <li><a href="facultades" >facultades</a></li>
                     <li><a href="docencia" >docencia</a></li>
                     <li><a href="bibliotecas" >bibliotecas</a></li>
-                    <li><a href="{% url 'cursos' %}">cursos</a></li>
+                    <li><a href="{% url 'Asignatura' %}">Asignaturas</a></li>
                 </ul>
                 {% block botones %} {% endblock %}
             </div>
