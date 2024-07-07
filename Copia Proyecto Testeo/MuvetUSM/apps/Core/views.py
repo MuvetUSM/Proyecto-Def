@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, views as auth_views
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .models import *
-from .forms import RegistroUsuario, IniciarUsuario
+from .forms import RegistroUsuario, IniciarUsuario, EditCursoForm
 
 
 # Create your views here.
@@ -37,15 +37,31 @@ class resetForm(PasswordResetForm):
             email_field_name + '__iexact': correo
         })
         return users
-    
-"""class CustomLoginView(LoginView):
-    # template_name = 'logout.html'  # optional
-    next_page = reverse_lazy('home')
 
-    def get(self, request):
-        # Add any custom logic here, e.g., clearing session data
-        return super().get(request)
-"""
+class CustomPasswordResetView(auth_views.PasswordResetView):
+    form_class = PasswordResetForm
+    email_template_name = 'egistration/password_reset_email.html'
+    subject_template_name = 'egistration/password_reset_subject.txt'
+    from_email = 'your_email@example.com'
+
+    def get_users(self, correo):
+        """Return a list of users that match the given correo."""
+        return Usuario.objects.filter(correo__iexact=correo)
+
+    def form_valid(self, form):
+        opts = {
+            'use_https': self.request.is_secure(),
+            'email_template_name': self.email_template_name,
+            'ubject_template_name': self.subject_template_name,
+            'equest': self.request,
+            'from_email': self.from_email,
+            'html_email_template_name': 'registration/password_reset_email.html',
+        }
+        form.save(**opts, correo=form.cleaned_data['correo'])
+
+        def get_users(self, correo):
+            return Usuario.objects.filter(correo__iexact=correo)
+        return super().form_valid(form)
 
 #cursos    
 def creacion_curso(request):
@@ -96,14 +112,39 @@ def cursos_home(request):
     if request.user.tipo == "Str":
         lista_curso = cursos.objects.all()
         data = {"cursos" : lista_curso}
-        return render(request,"cursos/cursos.html",data)
+        return render(request,"Core/cursos/cursos.html",data)
     if request.user.tipo == "Tea":
         lista_paralelos = Paralelo.objects.all()
         lista_curso = cursos.objects.all()
         data = {"paralelos" : lista_paralelos,"cursos_lista": lista_curso}
-        return render(request,"cursos/cursos.html",data)
-    return redirect('inicio')
+        return render(request, 'Core/cursos/cursos.html', data)
+    return redirect('home')
 
-@login_required
-def inicio(request):
-    return render(request,"inicio.html")
+
+def Asignatura_vista(request):
+    cursos = Asignatura.objects.all()
+    return render(request, 'Core/cursos.html', {'cursos': cursos})
+
+def edicion_asignatura(request, name):
+    curso = get_object_or_404(Asignatura, name=name)
+    
+    if request.method == 'POST':
+        form = EditCursoForm(request.POST, instance=curso)
+        if form.is_valid():
+            form.save()
+            return redirect('Asignatura') 
+    else:
+        form = EditCursoForm(instance=curso)
+    
+    return render(request, 'Core/edicion.html', {'form': form})
+
+
+def eliminar_asignatura(request, name):
+    curso = get_object_or_404(Asignatura, name=name)
+    curso.delete()
+    return redirect('Asignatura') 
+
+def save_asignatura(request):
+    asignatura_guardada = Asignatura()
+    asignatura_guardada.save()
+    return redirect('Asignatura')

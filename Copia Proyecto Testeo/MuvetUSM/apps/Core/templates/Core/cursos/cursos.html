@@ -1,5 +1,8 @@
-{% extends "home_muveet.html" %}
-{% block pagina %}
+{% extends "Core/base.html" %}
+
+{% block title %} | Cursos {% endblock %}
+
+{% block content %}
 <div class="row">
     {% if user.tipo == "Str" and not user.tipo == "Tea"%}
     <div class="col">
@@ -47,7 +50,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                {% include "cursos/formulariocurso.html" %}
+                                {% include "Core/cursos/formulariocurso.html" %}
                             </div>
                         </div>
                     </div>
@@ -108,7 +111,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                {% include "cursos/formularioparalelo.html" %}
+                                {% include "Core/cursos/formularioparalelo.html" %}
                             </div>
                         </div>
                     </div>
@@ -143,4 +146,4 @@
         let model_curso = document.querySelector("#modificacionC")
     }
 </script>
-{% endblock pagina %}
+{% endblock %}

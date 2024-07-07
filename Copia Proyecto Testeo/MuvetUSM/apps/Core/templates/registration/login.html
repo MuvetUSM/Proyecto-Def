@@ -1,32 +1,40 @@
-{% extends "Core/base.html" %}
+{% load static %}
 
-{% block title %} | Login {% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="../../static/muvetusm/css/loginStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Muveet | Login </title>
+    <link rel="stylesheet" href="{% static 'Core/css/estilos.css' %}">
+    <link rel="stylesheet" href="../../static/muvetusm/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<form method="post">
-    {% csrf_token %}
-
-        <div class="container" id="container">
-            <div class="form-container sign-in">
-                <form>
-                    <h1>Iniciar sesión</h1>
-                    <input type="email" placeholder="Email" name="username">
-                    <input type="password" placeholder="Contraseña" name="password">
-                    <a href="{% url 'sendchange' %}?email={{ user.correo }}">He olvidado mi contraseña</a>
-                    <button type="submit">Iniciar sesión</button>
-                </form>
-            </div>
-            <div class="toggle-container">
-                <div class="toggle">
-                    <div class="toggle-panel toggle-right">
-                        <h1>¡Bienvenido a Muvet!</h1>
-                        <p>Inicie sesión para acceder a sus cursos y recursos. ¡Gracias por ser parte de nuestra comunidad educativa!</p>
+<body>
+    <form method="post">
+        {% csrf_token %}
+    
+            <div class="container" id="container">
+                <div class="form-container sign-in">
+                    <form>
+                        <h1>Iniciar sesión</h1>
+                        <input type="email" placeholder="Email" name="username">
+                        <input type="password" placeholder="Contraseña" name="password">
+                        <a href="{% url 'sendchange' %}?email={{ user.correo }}">He olvidado mi contraseña</a>
+                        <button type="submit">Iniciar sesión</button>
+                    </form>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle">
+                        <div class="toggle-panel toggle-right">
+                            <h1>¡Bienvenido a Muvet!</h1>
+                            <p>Inicie sesión para acceder a sus cursos y recursos. ¡Gracias por ser parte de nuestra comunidad educativa!</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-</form>
-{% endblock %}
+    
+        
+    </form>
+</body>
+</html>

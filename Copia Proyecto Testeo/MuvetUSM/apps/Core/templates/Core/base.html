@@ -13,8 +13,12 @@
     <div class="root">
         <header>
             <div class="navbar">
-                <div class="logo"><a href="#">PRINCIPAL PAG.</a></div>
-                {% block botones %} {% endblock %}
+                <div class="logo"><a href="{% url 'home' %}">PRINCIPAL PAG.</a></div>
+                <a href="{% url 'gestor' %}">CursosMont</a>
+                <a href="{% url 'Asignatura' %}">CursosRenato</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="action-btn">Logout</a>
+                {% endif %}
             </div>
         </header>
     </div> 
