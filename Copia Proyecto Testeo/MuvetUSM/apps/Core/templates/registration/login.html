@@ -20,7 +20,9 @@
                         <h1>Iniciar sesión</h1>
                         <input type="email" placeholder="Email" name="username">
                         <input type="password" placeholder="Contraseña" name="password">
+                        <br>
                         <a href="{% url 'sendchange' %}?email={{ user.correo }}">He olvidado mi contraseña</a>
+                        <br>
                         <button type="submit">Iniciar sesión</button>
                     </form>
                 </div>

@@ -9,7 +9,7 @@ urlpatterns = [
     path('prof/home/', views.homeprof, name = 'homeprof'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', views.home, name='profile'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', views.exit, name='logout'),
 
     # Urls del Cambio de contraseña
     path('sendChange/', views.CustomPasswordResetView.as_view(), name = 'sendchange'),

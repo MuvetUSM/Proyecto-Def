@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, views as auth_views
+from django.contrib.auth import authenticate, login, logout, views as auth_views
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.decorators import login_required
@@ -14,6 +14,10 @@ from .forms import RegistroUsuario, IniciarUsuario, EditCursoForm
 @login_required
 def home(request):
     return render(request, 'Core/home.html')
+
+def exit(request):
+    logout(request)
+    return redirect('home')
 
 def homeprof(request):
     return render(request, 'Core/homeprof.html')
