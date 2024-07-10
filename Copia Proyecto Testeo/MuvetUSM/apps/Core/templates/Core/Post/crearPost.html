@@ -1,0 +1,47 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'muvetusm/css/styles.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <form id="create-post-form" method="post">
+      {% csrf_token %}
+      <div id="post">
+        <label for="post-title">Título del post:</label>
+        <input type="text" id="post-title" name="title">
+        <br><br>
+        <label for="post-content">Descripción del post:</label>
+        <textarea id="post-content" name="content"></textarea>
+        <br><br>
+        <label for="file-upload">Subir archivo:</label>
+        <input type="file" id="file-upload" name="file">
+        <br><br>
+        <label for="comunicado">Comunicado:</label>
+        <input type="checkbox" id="comunicado" name="comunicado">
+        <br><br>
+        <label for="entregable">Entregable:</label>
+        <input type="checkbox" id="entregable" name="entregable">
+        <br><br>
+        <button type="submit">Crear post</button>
+
+      </div>
+    </form>
+
+    <h3>Repositorio de posts</h3>
+    <ul>
+        {% for post in posts %}
+          <li>
+            <h3>{{ post.title }}: {{ post.type }}</h3>
+            <p>{{ post.content }}</p>
+            <a href="{% url 'post_delete' post.id %}" class="delete-post">Eliminar</a>
+            <a href="{% url 'post_edit' post.id %}" class="edit-post">Editar</a>
+          </li>
+        {% endfor %}
+
+    </ul>
+
+  </body>
+{% endblock %}

@@ -94,6 +94,9 @@ class Asignaturas(models.Model):
     curso_asociado = models.ManyToManyField(Curso)
     semestre = models.IntegerField(choices=[(1,"1 semestre"),(2,"2 semestre")])
     Asignatura_paralelo = models.ManyToManyField(Paralelo)
+    repositorios = models.ManyToManyField('repositorio', related_name='repositorios')
+
+
     def __str__(self) -> str:
         return f"{self.Nombre_Asignatura}"
 
@@ -116,17 +119,23 @@ class Discussion(models.Model):
     def __str__(self):
         return self.hilo
     
-#post (loreto)
-class Post(models.Model):
-    title = models.CharField(max_length=255)
-    content = models.TextField()
-    type = models.CharField(max_length=20, choices=[
-        ('entregable', 'Entregable'),
-        ('contenido', 'Contenido'),
-        ('comunicado', 'Comunicado'),
-    ])
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class post(models.Model):
+    repositorio = models.ForeignKey('repositorio', on_delete=models.CASCADE, default = False)
+    name = models.CharField(max_length=150, default = "Nuevo_Post")
+    descripcion = models.TextField(blank=True)
+    comunicado = models.BooleanField(default=False)
+    entregable = models.BooleanField(default=False)
+    archivo = models.FileField(upload_to='archivos/', blank=True, null=True)
+
 
     def __str__(self):
-        return self.title
+        return self.name
+
+class repositorio(models.Model):
+    asignatura = models.ForeignKey('Asignaturas', on_delete=models.CASCADE)
+    name = models.CharField(max_length=80, default = "Nuevo_Repo")
+    descripcion = models.TextField(blank=True)
+    posts = models.ManyToManyField('post', related_name='posts')
+
+    def __str__(self):
+        return self.name

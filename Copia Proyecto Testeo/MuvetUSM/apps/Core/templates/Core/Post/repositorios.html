@@ -1,0 +1,24 @@
+{% extends 'Core/base.html' %}
+
+{% block title %} | Repositorios {{user.username}} {% endblock %}
+
+{% block content %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Core/css/repositorios.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Repositorios de {{ user.username }}</h1>
+        <a href="{% url 'crear_repositorio' asig.codigo_asignatura %}" class="btn">Crear repositorio</a>
+        <ul class="repos-list">
+            {% for repositorio in repositorios %}
+            <li class="repos-item">
+                <a href="{% url 'repositorio_detalle' repositorio.asignatura repositorio.name repositorio.id %}">{{ repositorio.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+{% endblock %}

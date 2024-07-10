@@ -5,3 +5,5 @@ from .models import *
 admin.site.register(Usuario)
 admin.site.register(Curso)
 admin.site.register(Asignaturas)
+admin.site.register(post)
+admin.site.register(repositorio)

@@ -5,8 +5,12 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.views.generic import DetailView
+from django.http import HttpResponse
 from .models import *
-from .forms import RegistroUsuario, IniciarUsuario, EditCursoForm, CreateForo, CreateDiscussion
+from .forms import *
 
 
 # Create your views here.
@@ -67,13 +71,6 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
             return Usuario.objects.filter(correo__iexact=correo)
         return super().form_valid(form)
 
-
-
-def eliminacion_curso(request,curso):
-    delete_c = cursos.objects.get(Codigo_curso = curso)
-    delete_c.delete()
-    return redirect('gestor')
-
 def modificar_curso(request,curso):
     data_modificacion = request.post
     return redirect('gestor')
@@ -97,23 +94,6 @@ def eliminacion_paralelo(request,paralelo):
     delete_p = Paralelo.objects.get(codigo_paralelo = paralelo)
     delete_p.delete()
     return redirect('Curso')
-
-@login_required
-def cursos_home(request):
-    
-    data = {}
-    if request.user.tipo == "Str":
-        lista_curso = cursos.objects.all()
-        data = {"cursos" : lista_curso}
-        return render(request,"Core/cursos/cursos.html",data)
-    if request.user.tipo == "Tea":
-        lista_paralelos = Paralelo.objects.all()
-        lista_curso = cursos.objects.all()
-        data = {"paralelos" : lista_paralelos,"cursos_lista": lista_curso}
-        return render(request, 'Core/cursos/cursos.html', data)
-    return redirect('home')
-
-
 
 
 #asignaturas
@@ -238,15 +218,67 @@ def delete_discussion(request, foro_id):
     foro.delete()
     return redirect('foro') 
 
-#Post (loreto)
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'Core/post/post.html', {'posts': posts})
+def crearPost(request, pk):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        file = request.FILES.get('file')
+        comunicado = request.POST.get('comunicado') == 'on'
+        entregable = request.POST.get('entregable') == 'on'
 
-def post_delete(request):
-    return 0
+        local_repositorio = get_object_or_404(repositorio, pk=pk)
+        new_post = post(name=title, descripcion=content, archivo=file, comunicado=comunicado, entregable=entregable, repositorio=local_repositorio)
+        new_post.save()
+        return redirect('repositorio_detalle', usuario='usuario', name='name', pk=pk)
+    else:
+        local_repositorio = get_object_or_404(repositorio, pk=pk)
+        form = postForm()
+    return render(request, 'Core/Post/crearPost.html', {'form': form, 'repositorio': local_repositorio})
 
-def post_edit(request):
-    return 0
+def eliminarPost(request, pk):
+    elpost = get_object_or_404(post, pk=pk)
+    elpost.delete()
+    repo = elpost.repositorio
+    return redirect('repositorio_detalle', usuario='usuario', name=repo.name, pk=repo.id) 
+
+def mostrarPost(request, pk):
+    post = post.objects.get(pk=pk)
+    return render(request, 'mostrarPost.html', {'post': post})
+
+@receiver(post_save, sender=Asignaturas)
+def create_repositorio(sender, instance, created, **kwargs):
+    if created:
+        repositorio.objects.create(asignatura=instance, name=f"Información General", descripcion="Repositorio Base, por favor editar descripción.")
+
+def repositorios_profesor(request, pk):
+    asig = Asignaturas.objects.get(pk=pk)
+    repositorios = repositorio.objects.filter(asignatura=asig)
+    return render(request, 'Core/Post/repositorios.html', {'repositorios': repositorios, 'asig': asig})
+
+def crearRepositorio(request, pk):
+    asig = get_object_or_404(Asignaturas, pk=pk)
+    if request.method == 'POST':
+        form = repositorioForm(request.POST)
+        if form.is_valid():
+            repositorio = form.save(commit=False)
+            repositorio.asignatura = asig  # Use the profesor object instead of self.request.user
+            repositorio.save()
+            return redirect('repositorios_profesor', pk=pk)
+    else:
+        form = repositorioForm()
+    return render(request, 'Core/Post/crearRepo.html', {'form': form, 'asignatura': asig})
 
 
+class RepositorioDetalleView(DetailView):
+    model = repositorio
+    template_name = 'Core/Post/repositorio_detalle.html'
+
+    def get_object(self):
+        usuario = self.kwargs.get('usuario')
+        name = self.kwargs.get('name')
+        pk = self.kwargs.get('pk')
+        if pk:
+            return get_object_or_404(repositorio, pk=pk)
+        elif usuario and name:
+            return get_object_or_404(repositorio, usuario__username=usuario, name=name)
+        return get_object_or_404(repositorio, pk=0)

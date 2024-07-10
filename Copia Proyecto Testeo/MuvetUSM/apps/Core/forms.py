@@ -66,3 +66,30 @@ class CreateDiscussion(ModelForm):
     class Meta:
         model = Discussion
         fields = "__all__"
+
+class postForm(forms.ModelForm):
+    class Meta:
+        model = post
+        fields = ('name', 'descripcion', 'comunicado', 'entregable', 'archivo')
+
+    def __init__(self, *args, **kwargs):
+        super(postForm, self).__init__(*args, **kwargs)
+        self.fields['archivo'].widget.attrs.update({'accept': '.png, .pdf, .csv, .docx'})
+
+    def clean_archivo(self):
+        archivo = self.cleaned_data.get('archivo')
+        if archivo:
+            if archivo.size > 1024 * 1024 * 5:  # 5MB
+                raise forms.ValidationError('El archivo es demasiado grande. Debe ser menor a 5MB.')
+            return archivo
+        return None
+
+class repositorioForm(forms.ModelForm):
+    class Meta:
+        model = repositorio
+        fields = ('name', 'descripcion')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].label = 'Nombre del repositorio'
+        self.fields['descripcion'].label = 'Descripción del repositorio'

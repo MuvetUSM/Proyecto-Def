@@ -27,7 +27,7 @@
                     {% for asignatura in Asignaturas %}
                     <tr>
                         <td>
-                            {{asignatura}}
+                            <a class="btn btn-primary" href="{% url 'repositorios_profesor' asignatura.codigo_asignatura %}">{{asignatura}}</a>
                         </td>
                         <td>
                             {% for curso_vinculado in asignatura.curso_asociado.all%}

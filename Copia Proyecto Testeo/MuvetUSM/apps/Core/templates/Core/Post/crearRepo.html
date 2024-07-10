@@ -1,0 +1,8 @@
+<h1>Crear nuevo repositorio</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Crear repositorio</button>
+    <input type="button" value="Cancelar" onclick="window.history.back()">
+</form>

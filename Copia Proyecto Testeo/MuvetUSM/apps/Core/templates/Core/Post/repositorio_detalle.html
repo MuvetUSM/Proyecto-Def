@@ -1,0 +1,25 @@
+{% extends 'Core/base.html' %}
+
+{% block content %}
+<h1>{{ repositorio.name }}</h1>
+<p>{{ repositorio.descripcion }}</p>
+<h2>Posts</h2>
+<a href="{% url 'crear_post' repositorio.pk %}" class="btn btn-primary">Crear nuevo post</a>
+<ul>
+    {% for post in repositorio.post_set.all %}
+        <li>
+            {{ post.descripcion }}
+            {% if post.archivos %}
+                <ul>
+                    {% for archivo in post.archivos.all %}
+                        <li>{{ archivo.nombre }} ({{ archivo.tamano }})</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{% url 'eliminarPost' post.id %}" class="btn btn-danger">Eliminar</a>
+        </li>
+    {% empty %}
+        <li>No hay posts asociados a este repositorio.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
