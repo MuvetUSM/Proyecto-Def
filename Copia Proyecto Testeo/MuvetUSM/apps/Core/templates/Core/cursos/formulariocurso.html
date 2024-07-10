@@ -1,17 +1,16 @@
-<form action="{% url 'generar_c' %}" method="post">
-    <select class="form-control" name="numeracion">
-        <option value="1" selected>1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
+<form action="{% url 'Curso' %}" method="post">
+    <label for="input_nivel_grado">Nivel</label>
+    <input type="text" class="form-control" id="input_nivel_grado" name="nivel">
+    <label for="select_tipo_educacion">Tipo educativo</label>
+    <select class="form-control mt-3" name="tipo_educacion" id="select_tipo_educacion">
+        <option value="Basico" selected>Basica</option>
+        <option value="Medio">Media</option>
     </select>
-    <select class="form-control mt-3" name="nombre">
-        <option value="BA" selected>Basica</option>
-        <option value="ME">Media</option>
+    <label for="select_profesor">Profesores</label>
+    <select name="profesor" class="form-control" id="select_profesor">
+        {% for profesor in Profesores %}
+          <option value="{{profesor.correo}}">{{profesor.username}}</option>
+        {% endfor %}
     </select>
     {% csrf_token %}
     <button type="submit" class="btn btn-primary my-2">Crear</button>

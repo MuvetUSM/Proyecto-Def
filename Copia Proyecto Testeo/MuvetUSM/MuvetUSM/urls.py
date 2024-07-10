@@ -17,15 +17,22 @@ urlpatterns = [
     path('changePass/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name="Auth/changepass.html"), name = 'changepass'),
     path('change/', auth_views.PasswordResetCompleteView.as_view(template_name="Auth/change.html"), name = 'change'),
     
-    path('cursos_paralelos/',views.cursos_home,name='gestor'), 
-    path('curso/<int:curso>/d',views.eliminacion_curso),
-    path('curso/<int:curso>/m',views.modificar_curso),
-    path('curso/generar',views.generacion_curso,name="generar_c"),
-    path('paralelo/<int:paralelo>/d',views.eliminacion_paralelo),
-    path('paralelo/generar',views.generacion_paralelo,name="generar_p"),
 
-    path('Asiganturas/', views.Asignatura_vista, name="Asignatura"),
-    path('edicion/<name>', views.edicion_asignatura, name="edicion"),
-    path('projects/eliminar/<name>/', views.eliminar_asignatura, name='eliminar'),
+    #asignatura (mont)
+    path('Asignatura',views.asigantura_home,name="Asignatura"),
+    path('Asignatura/crear',views.save_asignatura,name="Asignatura_crear"),
+    #----------------
+
+    #curso y paralelos (mont y renato)
+    path('paralelo/<int:paralelo>/d',views.eliminacion_paralelo),
+    path('paralelo/<int:paralelo>/m',views.modificar_paralelo),
+    path('paralelo/generar',views.generacion_paralelo,name="generar_p"),
+    path('Cursos_Paralelos/', views.Cursos_visualizacion, name="Curso"),
+    path('edicion/<codigo>', views.edicion_curso, name="edicion"),
+    path('projects/eliminar/<codigo>/', views.eliminar_curso, name='eliminar'),
+    #-----------------------
+    
+    
+    
 ]
 

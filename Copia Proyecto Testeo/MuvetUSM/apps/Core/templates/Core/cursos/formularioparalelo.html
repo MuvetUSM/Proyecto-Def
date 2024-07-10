@@ -1,10 +1,6 @@
 <form action="{% url 'generar_p' %}" method="post">
 
-    <select class="form-control" name="curso">
-        {% for curso in cursos_lista %}
-        <option value="{{curso.Codigo_curso}}">{{curso.Numeracion_curso}}{{curso.Nombre_curso}}</option>
-        {% endfor %}
-    </select>
+    <input type="hidden" class="form-control" id="Modal_Curso_P" name="curso">
     <input class="form-control mt-2" type="number" name="numero_p">
     {% csrf_token %}
     <button type="submit" class="btn btn-primary my-2">Crear</button>

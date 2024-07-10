@@ -67,18 +67,7 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
             return Usuario.objects.filter(correo__iexact=correo)
         return super().form_valid(form)
 
-#cursos    
-def creacion_curso(request):
-    return render(request, 'cursos/creacion_curso.html')
-def generacion_curso(request):
-    data_creacion = request.POST
-    numeracion = data_creacion['numeracion']
-    tipo = data_creacion['nombre']
-    if not cursos.objects.filter(Nombre_curso=tipo,Numeracion_curso=numeracion).exists():
-        curso_nuevo = cursos(Nombre_curso=tipo,Numeracion_curso=numeracion)
-        curso_nuevo.save()
-        return redirect('gestor')
-    return redirect('gestor')
+
 
 def eliminacion_curso(request,curso):
     delete_c = cursos.objects.get(Codigo_curso = curso)
@@ -101,13 +90,13 @@ def generacion_paralelo(request):
         Paralelo_nuevo = Paralelo(Numero_paralelo=n_paralelo,curso_paralelo_id = curso)
         
         Paralelo_nuevo.save()
-        return redirect('gestor')
-    return redirect('gestor')
+        return redirect('Curso')
+    return redirect('Curso')
 
 def eliminacion_paralelo(request,paralelo):
     delete_p = Paralelo.objects.get(codigo_paralelo = paralelo)
     delete_p.delete()
-    return redirect('gestor')
+    return redirect('Curso')
 
 @login_required
 def cursos_home(request):
@@ -148,7 +137,78 @@ def eliminar_asignatura(request, name):
     curso.delete()
     return redirect('Asignatura') 
 
+#asignaturas
+@login_required
 def save_asignatura(request):
-    asignatura_guardada = Asignatura()
-    asignatura_guardada.save()
+    curso_asignado = list(map(int, request.POST.getlist("curso_id")))
+    paralelos_asignados = request.POST.getlist("paralelos_elegidos")
+    asignatura_nombre = request.POST["nombre_asignatura"]
+    asignatura_semestre = request.POST["semestre_elegido"]
+    Asignatura_nueva = Asignaturas(Nombre_Asignatura = asignatura_nombre,semestre = asignatura_semestre)
+    Asignatura_nueva.save()
+    
+    for x in curso_asignado: 
+        
+        Asignatura_nueva.curso_asociado.add(x)
+    for x in paralelos_asignados:
+        
+        Asignatura_nueva.Asignatura_paralelo.add(x)
     return redirect('Asignatura')
+@login_required
+def asigantura_home(request):
+    asiganturas_lista = Asignaturas.objects.all()
+    cursos = Curso.objects.all()
+    paralelos_a = Paralelo.objects.all()
+    data = {"Asignaturas": asiganturas_lista,"Cursos": cursos,"Paralelos": paralelos_a}
+    return render(request,'Core/asignaturas/asignatura.html',data)
+
+
+#cursos y paralelos (mont)
+@login_required
+def Cursos_visualizacion(request):
+    cursos = Curso.objects.all()
+    Paralelos = Paralelo.objects.all()
+    usuarios = Usuario.objects.filter(tipo = 'Tea')
+    
+    if 'tipo_educacion' in request.POST and 'nivel' in request.POST:
+        #profesor_elegido = Usuario.objects.filter(correo = request.POST["profesor"])
+        curso = Curso(nivel_educativo = request.POST["tipo_educacion"],grado = request.POST["nivel"])
+        curso.save()
+        
+    
+
+    return render(request, 'Core/cursos.html', {'cursos': cursos,'Paralelos': Paralelos,'Profesores': usuarios})
+
+@login_required
+def edicion_curso(request, codigo):
+    curso = get_object_or_404(Curso, Codigo_curso=codigo)
+    
+    if request.method == 'POST':
+        form = EditCursoForm(request.POST, instance=curso)
+        if form.is_valid():
+            form.save()
+            return redirect('Curso') 
+    else:
+        form = EditCursoForm(instance=curso)
+    
+    return render(request, 'Core/edicion.html', {'form': form})
+
+@login_required
+def eliminar_curso(request, codigo):
+    curso = get_object_or_404(Curso, Codigo_curso=codigo)
+    curso.delete()
+    return redirect('Curso') 
+
+@login_required
+def modificar_paralelo(request,paralelo):
+    paralelo_elegido = Paralelo.objects.get(codigo_paralelo = paralelo)
+    data =  {
+        "paralelo": paralelo_elegido
+    }
+    #modificacion del paralelo
+    if request.POST and not Paralelo.objects.filter(Numero_paralelo=request.POST["Numero_paralelo"],curso_paralelo=request.POST["curso"]).exists():
+        Paralelo.objects.filter(codigo_paralelo=paralelo).update(Numero_paralelo=request.POST["Numero_paralelo"])
+        return redirect('Curso')
+    
+    #direcciona a la pagina de modificacion
+    return render(request,'Core/cursos/modificacion_paralelo.html',data)

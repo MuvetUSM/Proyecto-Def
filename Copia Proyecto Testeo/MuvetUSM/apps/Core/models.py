@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
-
+from django.conf import settings
 # Create your models here.
 
 class UsuarioManager(BaseUserManager):
@@ -65,36 +65,34 @@ class Usuario(AbstractBaseUser):
     def is_staff(self):
         return self.super
 
-class Asignatura(models.Model):
-    name = models.CharField(max_length=200)
-    grado = models.CharField(max_length=50, default=None)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, default=None)
 
-    def __str__(self):
-        return self.name
+    
 
 
 
 #mont
-tipo_nivel_educativo = [("BA","Basico"),("ME","Medio")]
-
 #modelo correspondiente al curso
-class cursos(models.Model):
-    Numeracion_curso = models.IntegerField(null=True)
-    Nombre_curso = models.CharField(choices=tipo_nivel_educativo,null=False,max_length=40)
+class Curso(models.Model):
+    tipo_nivel_educativo = [("Basico","Basico"),("Medio","Medio")]
+    grado = models.CharField(max_length=50, default=None)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    nivel_educativo =  models.CharField(choices=tipo_nivel_educativo,null=False,max_length=40)
     Codigo_curso = models.AutoField(primary_key=True)
-    
-    
-    def __str__(self) -> str:
-        nombre_curso = ""
-        for x in tipo_nivel_educativo:
-            if self.Nombre_curso in x:
-                nombre_curso = x[1]
-        return f"{self.Numeracion_curso} {nombre_curso}"
 
+    def __str__(self):
+        return   self.grado + " " + self.nivel_educativo
 class Paralelo(models.Model):
     codigo_paralelo = models.AutoField(primary_key=True)
     Numero_paralelo = models.IntegerField(null=False)
-    curso_paralelo = models.ForeignKey(cursos,on_delete=models.CASCADE)
+    curso_paralelo = models.ForeignKey(Curso,on_delete=models.CASCADE)
     def __str__(self):
         return f'Paralelo {self.Numero_paralelo} | Curso {self.curso_paralelo}'   
+
+class Asignaturas(models.Model):
+    codigo_asignatura = models.AutoField(primary_key=True)
+    Nombre_Asignatura = models.CharField(max_length=50, default=None)
+    curso_asociado = models.ManyToManyField(Curso)
+    semestre = models.IntegerField(choices=[(1,"1 semestre"),(2,"2 semestre")])
+    Asignatura_paralelo = models.ManyToManyField(Paralelo)
+    def __str__(self) -> str:
+        return f"{self.Nombre_Asignatura}"
