@@ -296,3 +296,60 @@ img, svg{
     text-decoration: underline;
     font-size: small;
 }
+
+/* FORO CREATE */
+.container-base {
+    background-color: #074469   ;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px auto;
+    max-width: 650px; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra el contenedor */
+    border: 2px solid white;
+}
+
+.container-base p {    
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+.btn-primary .forum{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.form-editar {
+    color: wheat;
+}   
+.form-titulo{
+    margin: 15px 0px;
+    text-transform: uppercase;
+    color: white;
+}

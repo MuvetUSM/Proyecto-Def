@@ -1,0 +1,16 @@
+{% extends "Core/base.html" %}
+
+{% block content %}
+
+<div class="container-base">
+    <h1 class="form-titulo">Agregar Hilo</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-primary btn-lg forum">Guardar</button>
+    </form>
+</div>
+
+{% endblock content %}
+

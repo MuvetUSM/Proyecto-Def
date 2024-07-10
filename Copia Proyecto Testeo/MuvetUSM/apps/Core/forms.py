@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 from .models import *
 
 class RegistroUsuario(forms.ModelForm):
@@ -55,4 +56,13 @@ class EditCursoForm(forms.ModelForm):
             'usuario': forms.Select(attrs={'class': 'form-control'}),
         }
         
+#FORO
+class CreateForo(ModelForm):
+    class Meta:
+        model = Foro
+        fields = "__all__"
 
+class CreateDiscussion(ModelForm):
+    class Meta:
+        model = Discussion
+        fields = "__all__"

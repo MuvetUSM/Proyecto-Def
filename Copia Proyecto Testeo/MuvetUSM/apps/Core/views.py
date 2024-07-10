@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .models import *
-from .forms import RegistroUsuario, IniciarUsuario, EditCursoForm
+from .forms import RegistroUsuario, IniciarUsuario, EditCursoForm, CreateForo, CreateDiscussion
 
 
 # Create your views here.
@@ -212,3 +212,51 @@ def modificar_paralelo(request,paralelo):
     
     #direcciona a la pagina de modificacion
     return render(request,'Core/cursos/modificacion_paralelo.html',data)
+
+#FORO
+def foro(request):
+
+    foros = Foro.objects.all()
+    counts = len(foros)
+    discussions = Discussion.objects.all()
+
+    context = {
+        'foros': foros,
+        'counts': counts,
+        'discussions': discussions
+    }
+    return render(request, 'Core/foro/foro.html', context)
+    
+
+def add_foro(request):
+    form = CreateForo() 
+    if request.method == 'POST':
+        form = CreateForo(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('foro')
+        
+    context = {'form':form}
+    return render(request, 'Core/foro/add_foro.html', context)
+    
+
+def add_discussion(request, foro_id):
+    foro = Foro.objects.get(id=foro_id)
+    form = CreateDiscussion()
+    if request.method == 'POST':
+        form = CreateDiscussion(request.POST)
+        if form.is_valid():
+            discussion = form.save(commit=False)
+            discussion.foro = foro
+            discussion.save()
+            return redirect('foro')
+        
+    context = {'form': form, 'foro': foro}
+    return render(request, 'Core/foro/add_discussion.html', context)
+
+def delete_discussion(request, foro_id):
+    foro = get_object_or_404(Foro, id=foro_id)
+    foro.delete()
+    return redirect('foro') 
+
+

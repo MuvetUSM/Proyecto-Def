@@ -96,3 +96,23 @@ class Asignaturas(models.Model):
     Asignatura_paralelo = models.ManyToManyField(Paralelo)
     def __str__(self) -> str:
         return f"{self.Nombre_Asignatura}"
+
+#FORO
+class Foro(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    tema = models.CharField(max_length=200)
+    descripcion = models.CharField(max_length=1000, blank=True)
+    link = models.CharField(max_length=100, null=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return str(self.tema)
+    
+
+class Discussion(models.Model):
+    hilo = models.ForeignKey(Foro, blank=True, on_delete=models.CASCADE)
+    discusion = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.hilo
+    

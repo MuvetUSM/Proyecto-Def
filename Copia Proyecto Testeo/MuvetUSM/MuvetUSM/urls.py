@@ -32,7 +32,11 @@ urlpatterns = [
     path('projects/eliminar/<codigo>/', views.eliminar_curso, name='eliminar'),
     #-----------------------
     
-    
+    #foro
+    path('foro/', views.foro, name='foro'),
+    path('add_foro/', views.add_foro, name='add_foro'),
+    path('add_discussion/<int:foro_id>/', views.add_discussion, name='add_discussion'),
+    path('foro/delete_discussion/<int:foro_id>/', views.delete_discussion, name='delete_discussion'),
     
 ]
 
