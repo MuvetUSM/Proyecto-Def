@@ -25,6 +25,7 @@
                     </svg> Inicio</a>
 
                 {% if user.is_authenticated %}
+                <a class="btn btn-primary" href="{% url 'post_list' %}">Post</a>
                 <a class="btn btn-primary" href="{% url 'Asignatura' %}">Asignatura</a>
                 <a class="btn btn-primary" href="{% url 'Curso' %}">Cursos</a>
                 <a class="btn btn-primary" href="{% url 'foro' %}">Foro</a>

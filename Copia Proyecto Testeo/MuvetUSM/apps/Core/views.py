@@ -114,28 +114,7 @@ def cursos_home(request):
     return redirect('home')
 
 
-def Asignatura_vista(request):
-    cursos = Asignatura.objects.all()
-    return render(request, 'Core/cursos.html', {'cursos': cursos})
 
-def edicion_asignatura(request, name):
-    curso = get_object_or_404(Asignatura, name=name)
-    
-    if request.method == 'POST':
-        form = EditCursoForm(request.POST, instance=curso)
-        if form.is_valid():
-            form.save()
-            return redirect('Asignatura') 
-    else:
-        form = EditCursoForm(instance=curso)
-    
-    return render(request, 'Core/edicion.html', {'form': form})
-
-
-def eliminar_asignatura(request, name):
-    curso = get_object_or_404(Asignatura, name=name)
-    curso.delete()
-    return redirect('Asignatura') 
 
 #asignaturas
 @login_required
@@ -258,5 +237,16 @@ def delete_discussion(request, foro_id):
     foro = get_object_or_404(Foro, id=foro_id)
     foro.delete()
     return redirect('foro') 
+
+#Post (loreto)
+def post_list(request):
+    posts = Post.objects.all()
+    return render(request, 'Core/post/post.html', {'posts': posts})
+
+def post_delete(request):
+    return 0
+
+def post_edit(request):
+    return 0
 
 

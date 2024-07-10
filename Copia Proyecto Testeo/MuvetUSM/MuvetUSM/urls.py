@@ -38,5 +38,9 @@ urlpatterns = [
     path('add_discussion/<int:foro_id>/', views.add_discussion, name='add_discussion'),
     path('foro/delete_discussion/<int:foro_id>/', views.delete_discussion, name='delete_discussion'),
     
+    #post
+    path('posts/', views.post_list, name='post_list'),
+    path('posts/<int:pk>/delete/', views.post_delete, name='post_delete'),
+    path('posts/<int:pk>/edit/', views.post_edit, name='post_edit'),
 ]
 

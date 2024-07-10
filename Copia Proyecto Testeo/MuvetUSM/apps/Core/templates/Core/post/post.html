@@ -1,0 +1,83 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/muvetusm/css/styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <form id="create-post-form">
+      <div id="post">
+        <label for="post-type">Tipo de post:</label>
+        <select id="post-type" name="post-type">
+          <option value="entregable">Entregable</option>
+          <option value="contenido">Contenido</option>
+          <option value="comunicado">Comunicado</option>
+        </select>
+        <br><br>
+        <label for="post-title">Título del post:</label>
+        <input type="text" id="post-title" name="post-title">
+        <br><br>
+        <label for="post-content">Contenido del post:</label>
+        <textarea id="post-content" name="post-content"></textarea>
+        <br><br>
+        <label for="file-upload">Subir archivo:</label>
+        <input type="file" id="file-upload" name="file-upload">
+        <br><br>
+        <input type="checkbox" id="notify" name="notify">
+        <label for="notify">Notificar a los estudiantes</label>
+        <br><br>
+        <form method="post">
+        <button type="submit">Crear post</button>
+          
+      </div>
+      </form>
+      
+      <h3>Repositorio de posts</h3>
+      <!--<div id="post-repository">
+        <h2>Posts</h2>
+        <ul>
+
+          <li>
+            <h3>Post 1: Entregable</h3>
+            <p>Contenido del post 1</p>
+            <a href="#" class="delete-post">Eliminar</a>
+            <a href="#" class="edit-post">Editar</a>
+          </li>
+ 
+          <li>
+            <h3>Post 1: Entregable</h3>
+            <p>Contenido del post 1</p>
+            <a href="#" class="delete-post">Eliminar</a>
+            <a href="#" class="edit-post">Editar</a>
+          </li>
+          
+          <li>
+            <h3>Post 2: Contenido</h3>
+            <p>Contenido del post 2</p>
+            <a href="#" class="delete-post">Eliminar</a>
+            <a href="#" class="edit-post">Editar</a>
+          </li>
+
+          <li>
+            <h3>Post 3: Comunicado</h3>
+            <p>Contenido del post 3</p>
+            <a href="#" class="delete-post">Eliminar</a>
+            <a href="#" class="edit-post">Editar</a>
+          </li>
+        </ul>-->
+
+  <ul>
+    {% for post in posts %}
+      <li>
+        <h3>{{ post.title }}: {{ post.type }}</h3>
+        <p>{{ post.content }}</p>
+        <a href="{% url 'post_delete' post.id %}" class="delete-post">Eliminar</a>
+        <a href="{% url 'post_edit' post.id %}" class="edit-post">Editar</a>
+      </li>
+    {% endfor %}
+    
+  </ul>
+
+      </div>
+</body>
